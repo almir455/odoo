@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Logs & Notifications</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Activity Logs & Notifications</h1>
+
+    <!-- Notification Section -->
+
+    <h2>Create Notification</h2>
+
+    <input type="text" id="notificationType" placeholder="Notification Type">
+
+    <input type="text" id="notificationMessage" placeholder="Message">
+
+    <input type="text" id="notificationTime" placeholder="Time">
+
+    <button onclick="addNotification()">
+        Add Notification
+    </button>
+
+    <hr>
+
+    <h2>Notifications</h2>
+
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Message</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="notificationTable">
+
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Activity Log Section -->
+
+    <h2>Add Activity Log</h2>
+
+    <input type="text" id="userName" placeholder="User Name">
+
+    <input type="text" id="userAction" placeholder="Action Performed">
+
+    <input type="text" id="moduleName" placeholder="Module">
+
+    <input type="text" id="logTime" placeholder="Date & Time">
+
+    <button onclick="addLog()">
+        Add Log
+    </button>
+
+    <hr>
+
+    <h2>Full Activity Audit Log</h2>
+
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Action</th>
+                <th>Module</th>
+                <th>Date & Time</th>
+            </tr>
+        </thead>
+
+        <tbody id="activityTable">
+
+        </tbody>
+    </table>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Registration & Directory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Asset Registration & Directory</h1>
+
+    <!-- Register New Asset -->
+
+    <h2>Register New Asset</h2>
+
+    <input type="text" id="assetName" placeholder="Asset Name">
+    <br><br>
+
+    <input type="text" id="category" placeholder="Category">
+    <br><br>
+
+    <input type="text" id="serialNumber" placeholder="Serial Number">
+    <br><br>
+
+    <label>Acquisition Date:</label>
+    <input type="date" id="acquisitionDate">
+    <br><br>
+
+    <input type="text" id="cost" placeholder="Acquisition Cost">
+    <br><br>
+
+    <input type="text" id="condition" placeholder="Condition">
+    <br><br>
+
+    <input type="text" id="location" placeholder="Location">
+    <br><br>
+
+    <label>
+        <input type="checkbox" id="shared">
+        Shared / Bookable
+    </label>
+
+    <br><br>
+
+    <button onclick="registerAsset()">
+        Register Asset
+    </button>
+
+    <hr>
+
+    <!-- Search -->
+
+    <h2>Search Assets</h2>
+
+    <input
+        type="text"
+        id="searchBox"
+        placeholder="Search by Tag, Serial, Category, Location"
+        onkeyup="searchAssets()"
+    >
+
+    <hr>
+
+    <!-- Asset Directory -->
+
+    <h2>Asset Directory</h2>
+
+    <table border="1" cellpadding="10">
+
+        <thead>
+            <tr>
+                <th>Asset Tag</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Serial</th>
+                <th>Status</th>
+                <th>Location</th>
+                <th>Bookable</th>
+            </tr>
+        </thead>
+
+        <tbody id="assetTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
