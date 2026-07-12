@@ -1,0 +1,157 @@
+-- index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AssetFlow Dashboard</title>
+
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+	<h1>AssetFlow Dashboard</h1>
+
+	<!-- Input Section -->
+
+	<div class="form">
+
+		<input type="number" id="available" placeholder="Assets Available">
+
+		<input type="number" id="allocated" placeholder="Assets Allocated">
+
+		<input type="number" id="maintenance" placeholder="Maintenance Today">
+
+		<input type="number" id="booking" placeholder="Active Bookings">
+
+		<input type="number" id="transfer" placeholder="Pending Transfers">
+
+		<input type="number" id="returns" placeholder="Upcoming Returns">
+
+		<button onclick="updateDashboard()">
+			Update Dashboard
+		</button>
+
+	</div>
+
+	<!-- KPI Cards -->
+
+	<div class="dashboard">
+
+		<div class="card green">
+			<h3>Assets Available</h3>
+			<h2 id="cardAvailable">0</h2>
+		</div>
+
+		<div class="card blue">
+			<h3>Assets Allocated</h3>
+			<h2 id="cardAllocated">0</h2>
+		</div>
+
+		<div class="card orange">
+			<h3>Maintenance Today</h3>
+			<h2 id="cardMaintenance">0</h2>
+		</div>
+
+		<div class="card purple">
+			<h3>Active Bookings</h3>
+			<h2 id="cardBooking">0</h2>
+		</div>
+
+		<div class="card red">
+			<h3>Pending Transfers</h3>
+			<h2 id="cardTransfer">0</h2>
+		</div>
+
+		<div class="card cyan">
+			<h3>Upcoming Returns</h3>
+			<h2 id="cardReturns">0</h2>
+		</div>
+
+	</div>
+
+	<!-- Return Section -->
+
+	<div class="lists">
+
+		<div class="box overdue">
+
+			<h2>Overdue Returns</h2>
+
+			<ul>
+
+				<li>Dell Laptop - John Doe - 12 Jul</li>
+
+				<li>HP Laptop - Emma - 10 Jul</li>
+
+			</ul>
+
+		</div>
+
+		<div class="box upcoming">
+
+			<h2>Upcoming Returns</h2>
+
+			<ul>
+
+				<li>Projector - Rahul - 15 Jul</li>
+
+				<li>Camera - Anjali - 16 Jul</li>
+
+			</ul>
+
+		</div>
+
+	</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+-- style.css
+
+/* Basic reset and layout */
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Arial}
+body{background:#f4f7fb;color:#1f2b3a;padding:24px}
+.container{max-width:1100px;margin:0 auto}
+h1{margin-bottom:18px;font-size:28px}
+.form{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.form input{padding:10px;border:1px solid #d6dbe5;border-radius:6px;width:150px}
+.form button{padding:10px 14px;border:none;background:#2563eb;color:#fff;border-radius:6px;cursor:pointer}
+.dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.card{padding:14px;border-radius:10px;color:#fff}
+.card h3{font-size:13px;margin-bottom:8px;opacity:.95}
+.card h2{font-size:24px}
+.green{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.blue{background:linear-gradient(135deg,#0ea5e9,#3b82f6)}
+.orange{background:linear-gradient(135deg,#f97316,#fb923c)}
+.purple{background:linear-gradient(135deg,#7c3aed,#a78bfa)}
+.red{background:linear-gradient(135deg,#ef4444,#f87171)}
+.cyan{background:linear-gradient(135deg,#06b6d4,#34d399)}
+.lists{display:flex;gap:12px}
+.box{flex:1;background:#fff;border-radius:8px;padding:12px;box-shadow:0 6px 18px rgba(31,43,58,0.06)}
+.box h2{margin-bottom:8px}
+.box ul{list-style:none}
+.box li{padding:6px 0;border-bottom:1px dashed #eef3fb}
+
+-- script.js
+
+function updateDashboard(){
+	const get = id=>parseInt(document.getElementById(id).value||0,10)
+	document.getElementById('cardAvailable').textContent = get('available')
+	document.getElementById('cardAllocated').textContent = get('allocated')
+	document.getElementById('cardMaintenance').textContent = get('maintenance')
+	document.getElementById('cardBooking').textContent = get('booking')
+	document.getElementById('cardTransfer').textContent = get('transfer')
+	document.getElementById('cardReturns').textContent = get('returns')
+}
+
+index.html
+style.css
+script.js
