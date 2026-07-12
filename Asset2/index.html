@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Allocation & Transfer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Asset Allocation & Transfer</h1>
+
+    <h2>Allocate Asset</h2>
+
+    <input type="text" id="assetTag" placeholder="Asset Tag">
+    <br><br>
+
+    <input type="text" id="assetName" placeholder="Asset Name">
+    <br><br>
+
+    <input type="text" id="employeeName" placeholder="Employee Name">
+    <br><br>
+
+    <input type="text" id="department" placeholder="Department">
+    <br><br>
+
+    <label>Expected Return Date:</label>
+    <input type="date" id="returnDate">
+    <br><br>
+
+    <button onclick="allocateAsset()">
+        Allocate Asset
+    </button>
+
+    <p id="message"></p>
+
+    <hr>
+
+    <h2>Current Allocations</h2>
+
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Asset Tag</th>
+                <th>Asset Name</th>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Return Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="allocationTable">
+
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Transfer Workflow</h2>
+
+    <ol>
+        <li>Employee requests transfer.</li>
+        <li>Asset Manager / Department Head approves.</li>
+        <li>Asset is reallocated and history is updated.</li>
+    </ol>
+
+    <h2>Return Flow</h2>
+
+    <ol>
+        <li>Employee returns asset.</li>
+        <li>Condition check is recorded.</li>
+        <li>Asset status changes to <strong>Available</strong>.</li>
+    </ol>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

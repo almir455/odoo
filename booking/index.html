@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Resource Booking Screen</h1>
+
+    <h2>Create Booking</h2>
+
+    <input type="text" id="resource" placeholder="Resource Name (Room/Lab etc.)">
+    <br><br>
+
+    <input type="text" id="person" placeholder="Booked By">
+    <br><br>
+
+    <input type="date" id="date">
+    <br><br>
+
+    <label>Start Time:</label>
+    <input type="time" id="start">
+    <br><br>
+
+    <label>End Time:</label>
+    <input type="time" id="end">
+    <br><br>
+
+    <button onclick="createBooking()">Book Resource</button>
+
+    <p id="message"></p>
+
+    <hr>
+
+    <h2>Resource Calendar</h2>
+
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Resource</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="bookingTable">
+
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Booking Status</h2>
+
+    <ul>
+        <li><strong>Upcoming</strong> - Slot is scheduled.</li>
+        <li><strong>Ongoing</strong> - Current active booking.</li>
+        <li><strong>Completed</strong> - Booking finished.</li>
+        <li><strong>Cancelled</strong> - Booking removed.</li>
+    </ul>
+
+    <h2>Reminder Notification</h2>
+
+    <p>
+        Reminder notification will be generated before booking starts.
+    </p>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

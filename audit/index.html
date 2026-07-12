@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Audit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Asset Audit Screen</h1>
+
+    <!-- Create Audit Cycle -->
+
+    <h2>Create Audit Cycle</h2>
+
+    <input type="text" id="auditScope" placeholder="Department / Location Scope">
+    <br><br>
+
+    <input type="text" id="auditDate" placeholder="Date Range">
+    <br><br>
+
+    <input type="text" id="auditorName" placeholder="Auditor Name">
+    <br><br>
+
+    <button onclick="createAudit()">
+        Create Audit Cycle
+    </button>
+
+    <hr>
+
+    <!-- Add Asset -->
+
+    <h2>Add Asset For Audit</h2>
+
+    <input type="text" id="assetTag" placeholder="Asset Tag">
+
+    <input type="text" id="assetName" placeholder="Asset Name">
+
+    <input type="text" id="department" placeholder="Department">
+
+    <button onclick="addAsset()">
+        Add Asset
+    </button>
+
+    <hr>
+
+    <!-- Asset Verification -->
+
+    <h2>Asset Verification</h2>
+
+    <table border="1" cellpadding="10">
+
+        <thead>
+            <tr>
+                <th>Asset Tag</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="assetTable">
+
+        </tbody>
+
+    </table>
+
+    <hr>
+
+    <!-- Discrepancy Report -->
+
+    <h2>Discrepancy Report</h2>
+
+    <ul id="discrepancyList">
+
+    </ul>
+
+    <button onclick="closeAudit()">
+        Close Audit Cycle
+    </button>
+
+    <hr>
+
+    <!-- Audit History -->
+
+    <h2>Audit History</h2>
+
+    <table border="1" cellpadding="10">
+
+        <thead>
+            <tr>
+                <th>Cycle</th>
+                <th>Scope</th>
+                <th>Date Range</th>
+                <th>Auditor</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody id="auditHistory">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

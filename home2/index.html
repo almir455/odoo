@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AssetFlow Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<div>
+<h2>Dashboard</h2>
+<p id="datetime"></p>
+</div>
+
+<div class="profile">
+<i class="fa-solid fa-user-circle"></i>
+<span>Admin</span>
+</div>
+
+</header>
+
+
+<!-- KPI Cards -->
+
+<section class="cards">
+
+<div class="card blue">
+<i class="fa-solid fa-box"></i>
+<h3 id="available">0</h3>
+<p>Assets Available</p>
+</div>
+
+<div class="card green">
+<i class="fa-solid fa-hand-holding"></i>
+<h3 id="allocated">0</h3>
+<p>Assets Allocated</p>
+</div>
+
+<div class="card orange">
+<i class="fa-solid fa-screwdriver-wrench"></i>
+<h3 id="maintenance">0</h3>
+<p>Maintenance Today</p>
+</div>
+
+<div class="card purple">
+<i class="fa-solid fa-calendar-check"></i>
+<h3 id="bookings">0</h3>
+<p>Active Bookings</p>
+</div>
+
+<div class="card red">
+<i class="fa-solid fa-truck-fast"></i>
+<h3 id="transfers">0</h3>
+<p>Pending Transfers</p>
+</div>
+
+<div class="card teal">
+<i class="fa-solid fa-clock-rotate-left"></i>
+<h3 id="returns">0</h3>
+<p>Upcoming Returns</p>
+</div>
+
+</section>
+
+
+<div class="grid">
+
+<!-- Overdue -->
+
+<div class="panel overdue">
+
+<h3>
+<i class="fa-solid fa-circle-exclamation"></i>
+Overdue Returns
+</h3>
+
+<ul>
+
+<li>
+Laptop HP EliteBook
+<span>3 Days Late</span>
+</li>
+
+<li>
+Projector Epson
+<span>1 Day Late</span>
+</li>
+
+<li>
+Dell Monitor
+<span>Today</span>
+</li>
+
+</ul>
+
+</div>
+
+<!-- Upcoming -->
+
+<div class="panel upcoming">
+
+<h3>
+<i class="fa-solid fa-calendar-days"></i>
+Upcoming Returns
+</h3>
+
+<ul>
+
+<li>
+Canon Camera
+<span>Tomorrow</span>
+</li>
+
+<li>
+MacBook Pro
+<span>2 Days</span>
+</li>
+
+<li>
+iPad Air
+<span>4 Days</span>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- Quick Actions -->
+
+<section class="actions">
+
+<button>
+<i class="fa-solid fa-plus"></i>
+Register Asset
+</button>
+
+<button>
+<i class="fa-solid fa-book"></i>
+Book Resource
+</button>
+
+<button>
+<i class="fa-solid fa-screwdriver-wrench"></i>
+Raise Maintenance Request
+</button>
+
+</section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

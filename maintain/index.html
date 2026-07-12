@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Maintenance Management</h1>
+
+    <!-- Raise Maintenance Request -->
+
+    <h2>Raise Maintenance Request</h2>
+
+    <input type="text" id="assetTag" placeholder="Asset Tag">
+    <br><br>
+
+    <textarea id="issue" placeholder="Describe Issue"></textarea>
+    <br><br>
+
+    <select id="priority">
+        <option>Low</option>
+        <option selected>Medium</option>
+        <option>High</option>
+    </select>
+    <br><br>
+
+    <input type="file" id="photo">
+    <br><br>
+
+    <button onclick="raiseRequest()">
+        Submit Request
+    </button>
+
+    <hr>
+
+    <!-- Maintenance Requests -->
+
+    <h2>Maintenance Requests</h2>
+
+    <table border="1" cellpadding="10">
+
+        <thead>
+            <tr>
+                <th>Asset</th>
+                <th>Issue</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Technician</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="requestTable">
+
+        </tbody>
+
+    </table>
+
+    <hr>
+
+    <!-- Workflow -->
+
+    <h2>Workflow</h2>
+
+    <p>
+        Pending → Approved → Technician Assigned → In Progress → Resolved
+    </p>
+
+    <hr>
+
+    <!-- Maintenance History -->
+
+    <h2>Maintenance History</h2>
+
+    <table border="1" cellpadding="10">
+
+        <thead>
+            <tr>
+                <th>Asset</th>
+                <th>Issue</th>
+                <th>Priority</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody id="historyTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

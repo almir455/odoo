@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Setup</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Organization Setup (Admin)</h1>
+
+    <!-- Department Management -->
+    <section class="card">
+        <h2>Department Management</h2>
+
+        <input type="text" id="deptName" placeholder="Department Name">
+        <input type="text" id="deptHead" placeholder="Department Head">
+        <input type="text" id="deptParent" placeholder="Parent Department">
+
+        <button onclick="addDepartment()">Create Department</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Head</th>
+                    <th>Parent</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="departmentTable">
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Asset Category Management -->
+    <section class="card">
+        <h2>Asset Category Management</h2>
+
+        <input type="text" id="categoryName" placeholder="Category Name">
+        <input type="text" id="categoryField" placeholder="Category Specific Field">
+
+        <button onclick="addCategory()">Create Category</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Extra Fields</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="categoryTable">
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Employee Directory -->
+    <section class="card">
+        <h2>Employee Directory</h2>
+
+        <input type="text" id="empName" placeholder="Employee Name">
+        <input type="email" id="empEmail" placeholder="Email">
+        <input type="text" id="empDepartment" placeholder="Department">
+
+        <select id="empRole">
+            <option>Employee</option>
+            <option>Department Head</option>
+            <option>Asset Manager</option>
+        </select>
+
+        <button onclick="addEmployee()">Add Employee</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="employeeTable">
+            </tbody>
+        </table>
+    </section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

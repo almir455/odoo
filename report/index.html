@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Reports & Analytics</h1>
+
+    <select id="reportType" onchange="changeReport()">
+        <option>Asset Utilization</option>
+        <option>Maintenance Analysis</option>
+        <option>Department Allocation</option>
+        <option>Resource Booking</option>
+    </select>
+
+    <hr>
+
+    <!-- Asset Utilization -->
+    <div id="assetSection">
+
+        <h2>Add Asset Usage Data</h2>
+
+        <input type="text" id="assetName" placeholder="Asset Name">
+        <input type="text" id="assetCategory" placeholder="Category">
+        <input type="text" id="assetUsage" placeholder="Usage %">
+        <input type="text" id="assetStatus" placeholder="Status">
+
+        <button onclick="addAsset()">Add Asset Report</button>
+
+        <h2>Asset Utilization Trends</h2>
+
+        <table border="1" cellpadding="10">
+            <thead>
+                <tr>
+                    <th>Asset</th>
+                    <th>Category</th>
+                    <th>Usage</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="assetTable">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Maintenance Analysis -->
+    <div id="maintenanceSection" style="display:none;">
+
+        <h2>Add Maintenance Data</h2>
+
+        <input type="text" id="maintCategory" placeholder="Category">
+        <input type="text" id="repairs" placeholder="Number of Repairs">
+
+        <button onclick="addMaintenance()">Add Maintenance</button>
+
+        <table border="1" cellpadding="10">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Repairs</th>
+                </tr>
+            </thead>
+
+            <tbody id="maintenanceTable">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Department Allocation -->
+    <div id="allocationSection" style="display:none;">
+
+        <h2>Add Department Allocation</h2>
+
+        <input type="text" id="department" placeholder="Department">
+        <input type="text" id="assetCount" placeholder="Allocated Assets">
+
+        <button onclick="addAllocation()">Add Allocation</button>
+
+        <table border="1" cellpadding="10">
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>Assets</th>
+                </tr>
+            </thead>
+
+            <tbody id="allocationTable">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Resource Booking -->
+    <div id="bookingSection" style="display:none;">
+
+        <h2>Add Booking Usage</h2>
+
+        <input type="text" id="timeSlot" placeholder="Time Slot">
+        <input type="text" id="usageLevel" placeholder="Usage Level">
+
+        <button onclick="addBooking()">Add Booking Data</button>
+
+        <table border="1" cellpadding="10">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Usage</th>
+                </tr>
+            </thead>
+
+            <tbody id="bookingTable">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <hr>
+
+    <button onclick="exportReport()">Export Report</button>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
