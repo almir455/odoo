@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="view_assetflow_alert_list" model="ir.ui.view">
+        <field name="name">assetflow.alert.list</field>
+        <field name="model">assetflow.alert</field>
+        <field name="arch" type="xml">
+
+            <list string="Smart Alerts">
+
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="alert_type"/>
+                <field name="priority"/>
+                <field name="status"/>
+                <field name="created_at"/>
+
+            </list>
+
+        </field>
+    </record>
+
+
+    <record id="view_assetflow_alert_form" model="ir.ui.view">
+        <field name="name">assetflow.alert.form</field>
+        <field name="model">assetflow.alert</field>
+        <field name="arch" type="xml">
+
+            <form string="Smart Alert">
+
+                <header>
+
+                    <button
+                        name="action_resolve"
+                        string="Resolve Alert"
+                        type="object"
+                        class="btn-primary"
+                    />
+
+                    <field
+                        name="status"
+                        widget="statusbar"
+                    />
+
+                </header>
+
+                <sheet>
+
+                    <group>
+
+                        <group>
+                            <field name="name"/>
+                            <field name="asset_id"/>
+                            <field name="alert_type"/>
+                        </group>
+
+                        <group>
+                            <field name="priority"/>
+                            <field name="failure_probability"/>
+                            <field name="created_at"/>
+                        </group>
+
+                    </group>
+
+                    <group string="Alert Details">
+                        <field name="message"/>
+                    </group>
+
+                    <group string="Recommended Action">
+                        <field name="recommended_action"/>
+                    </group>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <record id="action_assetflow_alerts" model="ir.actions.act_window">
+    <field name="name">Smart Alerts</field>
+    <field name="res_model">assetflow.alert</field>
+    <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem
+        id="menu_assetflow_alerts"
+        name="Smart Alerts"
+        parent="menu_assetflow_root"
+        action="action_assetflow_alerts"
+        sequence="30"
+    />
+
+</odoo>

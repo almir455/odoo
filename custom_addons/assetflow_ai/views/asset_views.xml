@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="view_assetflow_asset_list" model="ir.ui.view">
+        <field name="name">assetflow.asset.list</field>
+        <field name="model">assetflow.asset</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="asset_type"/>
+                <field name="serial_number"/>
+                <field name="employee_id"/>
+                <field name="condition"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_assetflow_asset_form" model="ir.ui.view">
+        <field name="name">assetflow.asset.form</field>
+        <field name="model">assetflow.asset</field>
+        <field name="arch" type="xml">
+
+            <form string="Asset">
+            <header>
+    <button
+        name="action_run_ai_prediction"
+        string="Run AI Prediction"
+        type="object"
+        class="btn-primary"
+    />
+</header>
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="asset_type"/>
+                            <field name="serial_number"/>
+                            <field name="status"/>
+                        </group>
+
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="location"/>
+                            <field name="condition"/>
+                        </group>
+
+                        <group string="QR CODE">
+                            <field name="qr_code"
+                                   widget="image"
+                                   readonly="1"
+                                   class="oe_avatar"/>
+                        </group>
+                    </group>
+
+                    <group string="Purchase Information">
+                        <field name="purchase_date"/>
+                        <field name="purchase_cost"/>
+                    </group>
+
+                    <group string="Maintenance">
+                        <field name="last_service"/>
+                        <field name="next_service"/>
+                    </group>
+
+                </sheet>
+
+                <chatter/>
+
+            </form>
+
+        </field>
+    </record>
+
+    <record id="action_assetflow_assets" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">assetflow.asset</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_assetflow_root"
+        name="AssetFlow AI"
+        web_icon="assetflow_ai,static/description/icon.png"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_assetflow_assets"
+        name="Assets"
+        parent="menu_assetflow_root"
+        action="action_assetflow_assets"
+        sequence="10"
+    />
+
+</odoo>
