@@ -1,0 +1,565 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//////////////////////
+// ENUMS
+//////////////////////
+
+enum Role {
+  ADMIN
+  ASSET_MANAGER
+  DEPARTMENT_HEAD
+  EMPLOYEE
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum AssetStatus {
+  AVAILABLE
+  ALLOCATED
+  RESERVED
+  UNDER_MAINTENANCE
+  LOST
+  RETIRED
+  DISPOSED
+}
+
+//////////////////////
+// DEPARTMENT
+//////////////////////
+
+model Department {
+
+  id        Int      @id @default(autoincrement())
+
+  name      String
+
+  code      String   @unique
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // Relations
+
+  users      User[]
+
+  assets     Asset[]
+
+  auditCycles AuditCycle[]
+
+}
+
+//////////////////////
+// USER
+//////////////////////
+
+model User {
+
+  id          Int      @id @default(autoincrement())
+
+  name        String
+
+  email       String   @unique
+
+  password    String
+
+  role        Role     @default(EMPLOYEE)
+
+  status      UserStatus @default(ACTIVE)
+
+  departmentId Int?
+
+  createdAt   DateTime @default(now())
+
+  updatedAt   DateTime @updatedAt
+
+
+  // Relations
+
+  department Department? @relation(fields: [departmentId], references: [id])
+
+  notifications Notification[]
+
+  activityLogs ActivityLog[]
+
+  // Asset Allocation Relations
+  employeeAllocations AssetAllocation[] @relation("EmployeeAllocations")
+  managerAllocations  AssetAllocation[] @relation("ManagerAllocations")
+  
+  // Transfer Relations
+  transfersFrom       TransferRequest[] @relation("TransferFrom")
+  transfersTo         TransferRequest[] @relation("TransferTo")
+  requestedTransfers  TransferRequest[] @relation("RequestedTransfers")
+  approvedTransfers   TransferRequest[] @relation("ApprovedTransfers")
+    
+  bookings Booking[]
+
+  // Maintenance
+
+  reportedMaintenance MaintenanceRequest[] @relation("ReportedMaintenance")
+  
+  approvedMaintenance MaintenanceRequest[] @relation("ApprovedMaintenance")
+  
+  technicianMaintenance MaintenanceRequest[] @relation("TechnicianMaintenance")
+  
+  // Audits
+  
+  auditItems AuditItem[]
+
+  notifications Notification[]
+
+  activityLogs ActivityLog[]
+
+
+}
+
+//////////////////////
+// ASSET CATEGORY
+//////////////////////
+
+model AssetCategory {
+
+  id          Int      @id @default(autoincrement())
+
+  name        String   @unique
+
+  description String?
+
+  createdAt   DateTime @default(now())
+
+  updatedAt   DateTime @updatedAt
+
+  assets Asset[]
+
+}
+
+//////////////////////
+// ASSET
+//////////////////////
+
+model Asset {
+
+  id                 Int          @id @default(autoincrement())
+
+  assetTag           String       @unique
+  serialNumber       String?      @unique
+
+  name               String
+
+  description        String?
+
+  purchaseDate       DateTime?
+
+  purchaseCost       Float?
+
+  manufacturer       String?
+
+  modelNumber        String?
+
+  location           String?
+
+  status             AssetStatus  @default(AVAILABLE)
+
+  categoryId         Int
+  departmentId       Int
+
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  // Relations
+
+  category           AssetCategory @relation(fields: [categoryId], references: [id])
+
+  department         Department    @relation(fields: [departmentId], references: [id])
+
+  allocations        AssetAllocation[]
+
+  transfers          TransferRequest[]
+
+  maintenanceRequests MaintenanceRequest[]
+
+  auditItems         AuditItem[]
+}
+
+//////////////////////
+// ASSET ALLOCATION
+//////////////////////
+
+enum AllocationStatus {
+  ACTIVE
+  RETURNED
+  CANCELLED
+}
+
+model AssetAllocation {
+
+  id                 Int       @id @default(autoincrement())
+
+  assetId            Int
+
+  employeeId         Int
+
+  allocatedById      Int
+
+  allocatedAt        DateTime  @default(now())
+
+  expectedReturnDate DateTime?
+
+  returnedAt         DateTime?
+
+  remarks            String?
+
+  status             AllocationStatus @default(ACTIVE)
+
+  // Relations
+
+  asset              Asset @relation(fields: [assetId], references: [id])
+
+  employee           User @relation("EmployeeAllocations", fields: [employeeId], references: [id])
+
+  allocatedBy        User @relation("ManagerAllocations", fields: [allocatedById], references: [id])
+
+  @@index([assetId])
+  @@index([employeeId])
+}
+
+//////////////////////
+// TRANSFER REQUEST
+//////////////////////
+
+enum TransferStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+model TransferRequest {
+
+  id               Int      @id @default(autoincrement())
+
+  assetId          Int
+
+  fromEmployeeId   Int
+
+  toEmployeeId     Int
+
+  requestedById    Int
+
+  approvedById     Int?
+
+  reason           String?
+
+  status           TransferStatus @default(PENDING)
+
+  createdAt        DateTime @default(now())
+
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+
+  asset            Asset @relation(fields: [assetId], references: [id])
+
+  fromEmployee     User @relation("TransferFrom", fields: [fromEmployeeId], references: [id])
+
+  toEmployee       User @relation("TransferTo", fields: [toEmployeeId], references: [id])
+
+  requestedBy      User @relation("RequestedTransfers", fields: [requestedById], references: [id])
+
+  approvedBy       User? @relation("ApprovedTransfers", fields: [approvedById], references: [id])
+
+  @@index([assetId])
+}
+
+//////////////////////
+// RESOURCE
+//////////////////////
+
+enum ResourceType {
+  MEETING_ROOM
+  VEHICLE
+  PROJECTOR
+  LAPTOP
+  PRINTER
+  OTHER
+}
+
+enum ResourceStatus {
+  AVAILABLE
+  UNAVAILABLE
+  MAINTENANCE
+}
+
+model Resource {
+
+  id          Int      @id @default(autoincrement())
+
+  name        String
+
+  type        ResourceType
+
+  description String?
+
+  location    String?
+
+  capacity    Int?
+
+  status      ResourceStatus @default(AVAILABLE)
+
+  createdAt   DateTime @default(now())
+
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+
+  bookings Booking[]
+
+}
+
+//////////////////////
+// BOOKING
+//////////////////////
+
+enum BookingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model Booking {
+
+  id          Int      @id @default(autoincrement())
+
+  resourceId  Int
+
+  employeeId  Int
+
+  startTime   DateTime
+
+  endTime     DateTime
+
+  purpose     String
+
+  status      BookingStatus @default(PENDING)
+
+  createdAt   DateTime @default(now())
+
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+
+  resource Resource @relation(fields: [resourceId], references: [id])
+
+  employee User @relation(fields: [employeeId], references: [id])
+
+  @@index([resourceId])
+
+  @@index([employeeId])
+
+  @@index([startTime])
+
+  @@index([endTime])
+}
+
+//////////////////////
+// MAINTENANCE
+//////////////////////
+
+enum MaintenancePriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum MaintenanceStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model MaintenanceRequest {
+
+  id            Int      @id @default(autoincrement())
+
+  assetId       Int
+
+  reportedById  Int
+
+  approvedById  Int?
+
+  technicianId  Int?
+
+  description   String
+
+  priority      MaintenancePriority @default(MEDIUM)
+
+  status        MaintenanceStatus @default(PENDING)
+
+  createdAt     DateTime @default(now())
+
+  updatedAt     DateTime @updatedAt
+
+  resolvedAt    DateTime?
+
+  asset         Asset @relation(fields: [assetId], references: [id])
+
+  reportedBy    User @relation("ReportedMaintenance", fields: [reportedById], references: [id])
+
+  approvedBy    User? @relation("ApprovedMaintenance", fields: [approvedById], references: [id])
+
+  technician    User? @relation("TechnicianMaintenance", fields: [technicianId], references: [id])
+
+  @@index([assetId])
+
+  @@index([status])
+}
+
+//////////////////////
+// AUDIT
+//////////////////////
+
+enum AuditStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum VerificationStatus {
+  VERIFIED
+  MISSING
+  DAMAGED
+  NOT_FOUND
+}
+
+model AuditCycle {
+
+  id            Int      @id @default(autoincrement())
+
+  name          String
+
+  departmentId  Int
+
+  startDate     DateTime
+
+  endDate       DateTime
+
+  status        AuditStatus @default(PLANNED)
+
+  createdAt     DateTime @default(now())
+
+  updatedAt     DateTime @updatedAt
+
+  department Department @relation(fields: [departmentId], references: [id])
+
+  auditItems AuditItem[]
+
+}
+
+model AuditItem {
+
+  id Int @id @default(autoincrement())
+
+  auditCycleId Int
+
+  assetId Int
+
+  auditorId Int
+
+  verification VerificationStatus
+
+  remarks String?
+
+  createdAt DateTime @default(now())
+
+  auditCycle AuditCycle @relation(fields:[auditCycleId],references:[id])
+
+  asset Asset @relation(fields:[assetId],references:[id])
+
+  auditor User @relation(fields:[auditorId],references:[id])
+
+  @@index([auditCycleId])
+
+  @@index([assetId])
+}
+
+//////////////////////
+// NOTIFICATIONS
+//////////////////////
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+}
+
+model Notification {
+
+  id        Int      @id @default(autoincrement())
+
+  userId    Int
+
+  title     String
+
+  message   String
+
+  type      NotificationType @default(INFO)
+
+  isRead    Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+
+  @@index([isRead])
+}
+
+//////////////////////
+// ACTIVITY LOG
+//////////////////////
+
+model ActivityLog {
+
+  id          Int      @id @default(autoincrement())
+
+  userId      Int?
+
+  action      String
+
+  entity      String
+
+  entityId    Int?
+
+  description String?
+
+  ipAddress   String?
+
+  createdAt   DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+
+  @@index([entity])
+
+  @@index([createdAt])
+}

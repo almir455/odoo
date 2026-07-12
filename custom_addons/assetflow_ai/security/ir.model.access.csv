@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_assetflow_asset,access.assetflow.asset,model_assetflow_asset,base.group_user,1,1,1,1
+access_assetflow_maintenance,access.assetflow.maintenance,model_assetflow_maintenance,base.group_user,1,1,1,1
+access_assetflow_alert,access.assetflow.alert,model_assetflow_alert,base.group_user,1,1,1,1
+access_assetflow_prediction,access.assetflow.prediction,model_assetflow_prediction,base.group_user,1,1,1,1
