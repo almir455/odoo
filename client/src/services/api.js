@@ -31,3 +31,11 @@ export async function predictAsset(assetId) {
     asset_id: assetId,
   });
 }
+
+export async function getAssets() {
+  return callOdoo("/assetflow/assets");
+}
+
+export async function createAsset(asset) {
+  return callOdoo("/assetflow/assets/create", asset);
+}

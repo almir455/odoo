@@ -1,483 +1,188 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createAsset, getAssets , predictAsset } from "../services/api";
+
 
 function AssetRegistration() {
+  const [assets, setAssets] = useState([]);
+  const [message, setMessage] = useState("");
 
-
-  const [assets,setAssets] = useState([]);
-
-
-  const [search,setSearch] = useState("");
-
-
-
-  const [asset,setAsset] = useState({
-
-    name:"",
-    category:"",
-    serial:"",
-    date:"",
-    cost:"",
-    condition:"",
-    location:"",
-    status:"Available",
-    shared:false
-
+  const [form, setForm] = useState({
+    name: "",
+    serial_number: "",
+    purchase_date: "",
+    purchase_cost: "",
+    condition: "good",
+    location: "",
   });
 
-
-
-
-  const addAsset = ()=>{
-
-
-    const newAsset={
-
-      tag:`AF-${String(assets.length+1).padStart(4,"0")}`,
-
-      ...asset
-
-    };
-
-
-    setAssets([
-
-      ...assets,
-
-      newAsset
-
-    ]);
-
-
-
-    setAsset({
-
-      name:"",
-      category:"",
-      serial:"",
-      date:"",
-      cost:"",
-      condition:"",
-      location:"",
-      status:"Available",
-      shared:false
-
-    });
-
-
+  const loadAssets = async () => {
+    try {
+      const result = await getAssets();
+      setAssets(result || []);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+  useEffect(() => {
+    loadAssets();
+  }, []);
 
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("Registering asset...");
 
+    try {
+      await createAsset(form);
 
+      setMessage("✅ Asset registered successfully!");
 
-  const filteredAssets = assets.filter(item=>
+      setForm({
+        name: "",
+        serial_number: "",
+        purchase_date: "",
+        purchase_cost: "",
+        condition: "good",
+        location: "",
+      });
 
-    item.tag.toLowerCase().includes(search.toLowerCase()) ||
+      await loadAssets();
+    } catch (error) {
+      console.error(error);
+      setMessage(`❌ ${error.message}`);
+    }
+  };
 
-    item.serial.toLowerCase().includes(search.toLowerCase()) ||
+  const runPrediction = async (assetId) => {
+  try {
+    const result = await predictAsset(assetId);
 
-    item.category.toLowerCase().includes(search.toLowerCase()) ||
+    alert(
+      `🤖 AI PREDICTION\n\nFailure Risk: ${result.failure_probability}%\nRisk Level: ${result.risk_level}\nRecommended Action: ${result.recommended_action}`
+    );
 
-    item.location.toLowerCase().includes(search.toLowerCase())
-
-  );
-
-
-
-
-
+    await loadAssets();
+  } catch (error) {
+    alert(`Prediction Error: ${error.message}`);
+  }
+};
 
   return (
+    <div>
+      <h1>Asset Registration & Directory</h1>
 
-    <div style={{padding:"30px"}}>
+      <h2>Register New Asset</h2>
 
-
-      <h1>
-        Asset Registration & Directory
-      </h1>
-
-
-
-
-      <h2>
-        Register New Asset
-      </h2>
-
-
-
-
-      <input
-
-        placeholder="Asset Name"
-
-        value={asset.name}
-
-        onChange={(e)=>setAsset({
-
-          ...asset,
-
-          name:e.target.value
-
-        })}
-
-      />
-
-
-
-      <br/><br/>
-
-
-
-
-      <input
-
-        placeholder="Category"
-
-        value={asset.category}
-
-        onChange={(e)=>setAsset({
-
-          ...asset,
-
-          category:e.target.value
-
-        })}
-
-      />
-
-
-
-      <br/><br/>
-
-
-
-
-      <input
-
-        placeholder="Serial Number"
-
-        value={asset.serial}
-
-        onChange={(e)=>setAsset({
-
-          ...asset,
-
-          serial:e.target.value
-
-        })}
-
-      />
-
-
-
-      <br/><br/>
-
-
-
-
-      <label>
-        Acquisition Date:
-      </label>
-
-
-      <input
-
-        type="date"
-
-        value={asset.date}
-
-        onChange={(e)=>setAsset({
-
-          ...asset,
-
-          date:e.target.value
-
-        })}
-
-      />
-
-
-
-      <br/><br/>
-
-
-
-
-      <input
-
-        placeholder="Acquisition Cost"
-
-        value={asset.cost}
-
-        onChange={(e)=>setAsset({
-
-          ...asset,
-
-          cost:e.target.value
-
-        })}
-
-      />
-
-
-
-      <br/><br/>
-
-
-
-
-      <input
-
-        placeholder="Condition"
-
-        value={asset.condition}
-
-        onChange={(e)=>setAsset({
-
-          ...asset,
-
-          condition:e.target.value
-
-        })}
-
-      />
-
-
-
-      <br/><br/>
-
-
-
-
-      <input
-
-        placeholder="Location"
-
-        value={asset.location}
-
-        onChange={(e)=>setAsset({
-
-          ...asset,
-
-          location:e.target.value
-
-        })}
-
-      />
-
-
-
-      <br/><br/>
-
-
-
-
-      <label>
-
+      <form onSubmit={handleSubmit}>
         <input
-
-          type="checkbox"
-
-          checked={asset.shared}
-
-          onChange={(e)=>setAsset({
-
-            ...asset,
-
-            shared:e.target.checked
-
-          })}
-
+          name="name"
+          placeholder="Asset Name"
+          value={form.name}
+          onChange={handleChange}
+          required
         />
 
-        Shared / Bookable
+        <br /><br />
 
-      </label>
+        <input
+          name="serial_number"
+          placeholder="Serial Number"
+          value={form.serial_number}
+          onChange={handleChange}
+        />
 
+        <br /><br />
 
+        <input
+          type="date"
+          name="purchase_date"
+          value={form.purchase_date}
+          onChange={handleChange}
+        />
 
-      <br/><br/>
+        <br /><br />
 
+        <input
+          type="number"
+          name="purchase_cost"
+          placeholder="Purchase Cost"
+          value={form.purchase_cost}
+          onChange={handleChange}
+        />
 
+        <br /><br />
 
+        <select
+          name="condition"
+          value={form.condition}
+          onChange={handleChange}
+        >
+          <option value="excellent">Excellent</option>
+          <option value="good">Good</option>
+          <option value="fair">Fair</option>
+          <option value="poor">Poor</option>
+        </select>
 
-      <button onClick={addAsset}>
+        <br /><br />
 
-        Register Asset
+        <input
+          name="location"
+          placeholder="Location"
+          value={form.location}
+          onChange={handleChange}
+        />
 
-      </button>
+        <br /><br />
 
+        <button type="submit">Register Asset</button>
+      </form>
 
+      <p>{message}</p>
 
+      <hr />
 
+      <h2>Asset Directory</h2>
 
-      <hr/>
-
-
-
-
-
-      <h2>
-        Search Assets
-      </h2>
-
-
-
-      <input
-
-        placeholder="Search by Tag, Serial, Category, Location"
-
-        value={search}
-
-        onChange={(e)=>setSearch(e.target.value)}
-
-      />
-
-
-
-
-
-
-      <h2>
-        Asset Directory
-      </h2>
-
-
-
-
-      <table border="1" cellPadding="10">
-
-
+      <table border="1" cellPadding="8">
         <thead>
-
           <tr>
-
-            <th>Asset Tag</th>
-            <th>Name</th>
-            <th>Category</th>
+            <th>ID</th>
+            <th>Asset</th>
             <th>Serial</th>
+            <th>Condition</th>
             <th>Status</th>
             <th>Location</th>
-            <th>Bookable</th>
-
+            <th>AI Prediction</th>
           </tr>
-
         </thead>
 
-
-
-
         <tbody>
-
-
-        {
-
-          filteredAssets.map((item,index)=>(
-
-
-            <tr key={index}>
-
-
+          {assets.map((asset) => (
+            <tr key={asset.id}>
+              <td>{asset.id}</td>
+              <td>{asset.name}</td>
+              <td>{asset.serial_number}</td>
+              <td>{asset.condition}</td>
+              <td>{asset.status}</td>
+              <td>{asset.location}</td>
               <td>
-                {item.tag}
-              </td>
-
-
-              <td>
-                {item.name}
-              </td>
-
-
-              <td>
-                {item.category}
-              </td>
-
-
-              <td>
-                {item.serial}
-              </td>
-
-
-
-              <td>
-
-                <select
-
-                  value={item.status}
-
-                  onChange={(e)=>{
-
-
-                    const updated=[...assets];
-
-                    updated[index].status=e.target.value;
-
-                    setAssets(updated);
-
-
-                  }}
-
-                >
-
-                  <option>Available</option>
-                  <option>Allocated</option>
-                  <option>Reserved</option>
-                  <option>Under Maintenance</option>
-                  <option>Lost</option>
-                  <option>Retired</option>
-                  <option>Disposed</option>
-
-
-                </select>
-
-
-              </td>
-
-
-
-
-              <td>
-                {item.location}
-              </td>
-
-
-
-              <td>
-
-                {
-                  item.shared
-                  ?
-                  "Yes"
-                  :
-                  "No"
-                }
-
-              </td>
-
-
-
+  <button onClick={() => runPrediction(asset.id)}>
+    🤖 Predict Failure
+  </button>
+</td>
             </tr>
-
-
-          ))
-
-        }
-
-
+          ))}
         </tbody>
-
-
       </table>
-
-
-
-
     </div>
-
   );
-
 }
-
 
 export default AssetRegistration;
